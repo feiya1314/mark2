@@ -50,6 +50,8 @@
     --active-bg-color: #eeeeee;
     --text-color: #333333;
     --folder-color: #54aeff;
+    --folder-text-color: #8250df;
+    --file-text-color: #0a7e6a;
     --tree-line-color: #d1d5db;
     --file-selected-bg: #e0f6ff;
     --file-icon-color: #656d76;
@@ -109,6 +111,8 @@
     --active-bg-color: rgba(76, 201, 255, 0.22);
     --text-color: rgba(248, 250, 252, 0.95);
     --folder-color: #a5d8ff;
+    --folder-text-color: #d2a8ff;
+    --file-text-color: #22d3c0;
     --tree-line-color: rgba(148, 163, 184, 0.5);
     --file-selected-bg: rgba(76, 201, 255, 0.2);
     --file-selected-border: rgba(76, 201, 255, 0.9);

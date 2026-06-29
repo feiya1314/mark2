@@ -191,7 +191,7 @@
     flex: 1 1 auto;
     overflow: hidden;
     white-space: nowrap;
-    color: var(--text-color, #333);
+    color: var(--file-text-color);
     min-width: 0;
 }
 
@@ -363,13 +363,18 @@
     flex: 1 1 auto;
     overflow: hidden;
     white-space: nowrap;
-    color: var(--text-color, #333);
     font-weight: 400;
     min-width: 0;
     pointer-events: none;
 }
 
+.tree-folder-header .tree-item-name {
+    color: var(--folder-text-color);
+}
 
+.tree-file .tree-item-name {
+    color: var(--file-text-color);
+}
 
 /* 文件夹子项容器 - 带竖线 */
 .tree-folder-children {
