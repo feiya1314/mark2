@@ -16,7 +16,7 @@ import { FileCreator } from './FileCreator.js';
 import { FolderLoader } from './FolderLoader.js';
 import { OpenFileManager } from './OpenFileManager.js';
 import { FileActions } from './FileActions.js';
-import { scheduleCompactFileNameRefresh } from '../../utils/fileNameDisplay.js';
+
 
 function extractPathFromFolderKey(folderKey) {
     if (!folderKey) return '';
@@ -58,7 +58,6 @@ export class FileTree {
         this.cleanupFunctions = [];
         this.documentSessions = documentSessions;
         this.pendingRefreshPaths = new Set();
-        this.labelResizeObserver = null;
 
         this.state = new FileTreeState(this, { onStateChange });
         this.renderer = new FileTreeRenderer(this);
@@ -312,29 +311,6 @@ export class FileTree {
         this.renderer.initContainer();
         this.events.setupEventListeners();
         this.events.applySectionStates();
-        this.setupCompactNameObserver();
-    }
-
-    setupCompactNameObserver() {
-        if (typeof window === 'undefined' || typeof window.ResizeObserver !== 'function') {
-            return;
-        }
-
-        this.labelResizeObserver?.disconnect?.();
-        this.labelResizeObserver = new window.ResizeObserver(() => {
-            scheduleCompactFileNameRefresh(this.container);
-        });
-        this.labelResizeObserver.observe(this.container);
-
-        const sidebar = document.getElementById('sidebar');
-        if (sidebar) {
-            this.labelResizeObserver.observe(sidebar);
-        }
-
-        const resizer = document.getElementById('sidebarResizer');
-        if (resizer) {
-            this.labelResizeObserver.observe(resizer);
-        }
     }
 
     toggleSection(contentId) { this.events.handleSectionToggle(contentId); }
@@ -638,8 +614,6 @@ export class FileTree {
         this.openFilesView?.dispose();
         this.contextMenu?.dispose();
         this.openFileManager?.dispose();
-        this.labelResizeObserver?.disconnect?.();
-        this.labelResizeObserver = null;
         this.cancelRenaming();
         this.cleanupFunctions.forEach(cleanup => {
             if (typeof cleanup === 'function') cleanup();

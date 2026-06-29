@@ -369,21 +369,7 @@
     pointer-events: none;
 }
 
-.open-file-name__prefix,
-.tree-item-name__prefix {
-    flex: 1 1 auto;
-    width: 0;
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: clip;
-}
 
-.open-file-name__ellipsis,
-.tree-item-name__ellipsis,
-.open-file-name__suffix,
-.tree-item-name__suffix {
-    flex: 0 0 auto;
-}
 
 /* 文件夹子项容器 - 带竖线 */
 .tree-folder-children {
