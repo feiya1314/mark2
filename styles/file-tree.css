@@ -332,7 +332,7 @@
     display: inline-block;
     flex-shrink: 0;
     position: relative;
-    color: var(--folder-color, #54aeff);
+    color: var(--folder-text-color);
     pointer-events: none;
 }
 
