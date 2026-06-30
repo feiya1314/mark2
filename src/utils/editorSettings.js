@@ -7,30 +7,80 @@ store.migrateFrom('mark2:editorSettings', 'settings');
 const VALID_APPEARANCES = new Set(['light', 'dark', 'system']);
 
 export const COLOR_VARIANTS = {
-    default: {
-        labelKey: 'settings.colorVariantDefault',
-        folder: { light: '#8250df', dark: '#d2a8ff' },
-        file: { light: '#0a7e6a', dark: '#22d3c0' },
+    v1: {
+        labelKey: 'settings.colorVariant1',
+        folder: { light: '#f38181', dark: '#fce38a' },
+        file: { light: '#95e1d3', dark: '#eaffd0' },
     },
-    ocean: {
-        labelKey: 'settings.colorVariantOcean',
-        folder: { light: '#0969da', dark: '#58a6ff' },
-        file: { light: '#0550ae', dark: '#79c0ff' },
+    v2: {
+        labelKey: 'settings.colorVariant2',
+        folder: { light: '#71c9ce', dark: '#cbf1f5' },
+        file: { light: '#a6e3e9', dark: '#e3fdfd' },
     },
-    forest: {
-        labelKey: 'settings.colorVariantForest',
-        folder: { light: '#1a7f37', dark: '#3fb950' },
-        file: { light: '#116329', dark: '#56d364' },
+    v3: {
+        labelKey: 'settings.colorVariant3',
+        folder: { light: '#aa96da', dark: '#fcbad3' },
+        file: { light: '#a8d8ea', dark: '#ffffd2' },
     },
-    sunset: {
-        labelKey: 'settings.colorVariantSunset',
-        folder: { light: '#bd561d', dark: '#d29922' },
-        file: { light: '#953800', dark: '#e3b341' },
+    v4: {
+        labelKey: 'settings.colorVariant4',
+        folder: { light: '#3d84a8', dark: '#46cdcf' },
+        file: { light: '#48466d', dark: '#abedd8' },
     },
-    neutral: {
-        labelKey: 'settings.colorVariantNeutral',
-        folder: { light: '#656d76', dark: '#8b949e' },
-        file: { light: '#656d76', dark: '#8b949e' },
+    v5: {
+        labelKey: 'settings.colorVariant5',
+        folder: { light: '#61c0bf', dark: '#bbded6' },
+        file: { light: '#ffb6b9', dark: '#fae3d9' },
+    },
+    v6: {
+        labelKey: 'settings.colorVariant6',
+        folder: { light: '#ffaaa5', dark: '#ffd3b6' },
+        file: { light: '#a8e6cf', dark: '#dcedc1' },
+    },
+    v7: {
+        labelKey: 'settings.colorVariant7',
+        folder: { light: '#355c7d', dark: '#c06c84' },
+        file: { light: '#6c5b7b', dark: '#f67280' },
+    },
+    v8: {
+        labelKey: 'settings.colorVariant8',
+        folder: { light: '#ff8c94', dark: '#ffd3b5' },
+        file: { light: '#ffaaa6', dark: '#dcedc2' },
+    },
+    v9: {
+        labelKey: 'settings.colorVariant9',
+        folder: { light: '#625772', dark: '#a9eee6' },
+        file: { light: '#f9a1bc', dark: '#fefaec' },
+    },
+    v10: {
+        labelKey: 'settings.colorVariant10',
+        folder: { light: '#ffaaa5', dark: '#ffd3b6' },
+        file: { light: '#a8e6cf', dark: '#fdffab' },
+    },
+    v11: {
+        labelKey: 'settings.colorVariant11',
+        folder: { light: '#625772', dark: '#a9eee6' },
+        file: { light: '#f38181', dark: '#fefaec' },
+    },
+    v12: {
+        labelKey: 'settings.colorVariant12',
+        folder: { light: '#1f5f8b', dark: '#1891ac' },
+        file: { light: '#253b6e', dark: '#d2ecf9' },
+    },
+    v13: {
+        labelKey: 'settings.colorVariant13',
+        folder: { light: '#7fdfd4', dark: '#a7efe9' },
+        file: { light: '#fbac91', dark: '#fbe1b6' },
+    },
+    v14: {
+        labelKey: 'settings.colorVariant14',
+        folder: { light: '#8971d0', dark: '#95e8d7' },
+        file: { light: '#7dace4', dark: '#adf7d1' },
+    },
+    v15: {
+        labelKey: 'settings.colorVariant15',
+        folder: { light: '#649dad', dark: '#a4e5d9' },
+        file: { light: '#66c6ba', dark: '#c8f4de' },
     },
 };
 
@@ -52,7 +102,7 @@ export const defaultEditorSettings = {
     sidebarFontSize: 12,
     tocFontSize: 12,
     autoSave: true,
-    colorVariant: 'default',
+    colorVariant: 'v1',
 };
 
 function clamp(value, min, max) {
@@ -262,7 +312,7 @@ export function applyEditorSettings(settings) {
     root.style.setProperty('--sidebar-font-size', `${prefs.sidebarFontSize}px`);
     root.style.setProperty('--toc-font-size', `${prefs.tocFontSize}px`);
 
-    const variant = COLOR_VARIANTS[prefs.colorVariant] || COLOR_VARIANTS.default;
+    const variant = COLOR_VARIANTS[prefs.colorVariant] || COLOR_VARIANTS.v1;
     root.style.setProperty('--folder-text-color', variant.folder[resolvedAppearance]);
     root.style.setProperty('--file-text-color', variant.file[resolvedAppearance]);
 

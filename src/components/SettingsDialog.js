@@ -90,6 +90,26 @@ export class SettingsDialog {
                                 </select>
                             </label>
                             <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.colorVariant')}</span>
+                                <select name="colorVariant" class="settings-row__control">
+                                    <option value="v1">${t('settings.colorVariant1')}</option>
+                                    <option value="v2">${t('settings.colorVariant2')}</option>
+                                    <option value="v3">${t('settings.colorVariant3')}</option>
+                                    <option value="v4">${t('settings.colorVariant4')}</option>
+                                    <option value="v5">${t('settings.colorVariant5')}</option>
+                                    <option value="v6">${t('settings.colorVariant6')}</option>
+                                    <option value="v7">${t('settings.colorVariant7')}</option>
+                                    <option value="v8">${t('settings.colorVariant8')}</option>
+                                    <option value="v9">${t('settings.colorVariant9')}</option>
+                                    <option value="v10">${t('settings.colorVariant10')}</option>
+                                    <option value="v11">${t('settings.colorVariant11')}</option>
+                                    <option value="v12">${t('settings.colorVariant12')}</option>
+                                    <option value="v13">${t('settings.colorVariant13')}</option>
+                                    <option value="v14">${t('settings.colorVariant14')}</option>
+                                    <option value="v15">${t('settings.colorVariant15')}</option>
+                                </select>
+                            </label>
+                            <label class="settings-row">
                                 <span class="settings-row__label">${t('settings.language')}</span>
                                 <select name="language" class="settings-row__control">
                                     <option value="en">English</option>
@@ -112,16 +132,6 @@ export class SettingsDialog {
                             <label class="settings-row">
                                 <span class="settings-row__label">${t('settings.autoSave')}</span>
                                 <input type="checkbox" name="autoSave" class="settings-row__control settings-row__control--toggle" />
-                            </label>
-                            <label class="settings-row">
-                                <span class="settings-row__label">${t('settings.colorVariant')}</span>
-                                <select name="colorVariant" class="settings-row__control">
-                                    <option value="default">${t('settings.colorVariantDefault')}</option>
-                                    <option value="ocean">${t('settings.colorVariantOcean')}</option>
-                                    <option value="forest">${t('settings.colorVariantForest')}</option>
-                                    <option value="sunset">${t('settings.colorVariantSunset')}</option>
-                                    <option value="neutral">${t('settings.colorVariantNeutral')}</option>
-                                </select>
                             </label>
                             ${isMac ? `
                             <div class="settings-row settings-row--default-app" data-ref="defaultAppRow">
@@ -483,7 +493,7 @@ export class SettingsDialog {
             this.autoSaveCheckbox.checked = editorPrefs.autoSave !== false;
         }
         if (this.colorVariantSelect) {
-            this._setSelectValue(this.colorVariantSelect, editorPrefs.colorVariant || 'default');
+            this._setSelectValue(this.colorVariantSelect, editorPrefs.colorVariant || 'v1');
         }
         this.syncFontSelection(editorPrefs.fontFamily || '');
         this.fontSizeInput.value = Number(editorPrefs.fontSize) || 16;
@@ -650,7 +660,7 @@ export class SettingsDialog {
         const normalizedSidebarSize = Number.isFinite(sidebarFontSize) ? this.clamp(sidebarFontSize, 9, 24) : 12;
         const normalizedTocSize = Number.isFinite(tocFontSize) ? this.clamp(tocFontSize, 9, 24) : 12;
         const autoSave = this.autoSaveCheckbox ? Boolean(this.autoSaveCheckbox.checked) : true;
-        const colorVariant = (this.colorVariantSelect?.value || 'default').trim();
+        const colorVariant = (this.colorVariantSelect?.value || 'v1').trim();
 
         const sanitized = {
             theme: theme,
