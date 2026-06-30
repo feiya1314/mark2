@@ -6,6 +6,34 @@ store.migrateFrom('mark2:editorSettings', 'settings');
 
 const VALID_APPEARANCES = new Set(['light', 'dark', 'system']);
 
+export const COLOR_VARIANTS = {
+    default: {
+        labelKey: 'settings.colorVariantDefault',
+        folder: { light: '#8250df', dark: '#d2a8ff' },
+        file: { light: '#0a7e6a', dark: '#22d3c0' },
+    },
+    ocean: {
+        labelKey: 'settings.colorVariantOcean',
+        folder: { light: '#0969da', dark: '#58a6ff' },
+        file: { light: '#0550ae', dark: '#79c0ff' },
+    },
+    forest: {
+        labelKey: 'settings.colorVariantForest',
+        folder: { light: '#1a7f37', dark: '#3fb950' },
+        file: { light: '#116329', dark: '#56d364' },
+    },
+    sunset: {
+        labelKey: 'settings.colorVariantSunset',
+        folder: { light: '#bd561d', dark: '#d29922' },
+        file: { light: '#953800', dark: '#e3b341' },
+    },
+    neutral: {
+        labelKey: 'settings.colorVariantNeutral',
+        folder: { light: '#656d76', dark: '#8b949e' },
+        file: { light: '#656d76', dark: '#8b949e' },
+    },
+};
+
 export const defaultEditorSettings = {
     theme: 'default',
     appearance: 'system',
@@ -24,6 +52,7 @@ export const defaultEditorSettings = {
     sidebarFontSize: 12,
     tocFontSize: 12,
     autoSave: true,
+    colorVariant: 'default',
 };
 
 function clamp(value, min, max) {
@@ -164,6 +193,10 @@ export function normalizeEditorSettings(candidate) {
         if (candidate.autoSave !== undefined) {
             prefs.autoSave = candidate.autoSave !== false;
         }
+
+        if (typeof candidate.colorVariant === 'string' && COLOR_VARIANTS[candidate.colorVariant]) {
+            prefs.colorVariant = candidate.colorVariant;
+        }
     }
 
     return prefs;
@@ -228,6 +261,10 @@ export function applyEditorSettings(settings) {
     root.style.setProperty('--tab-font-size', `${prefs.tabFontSize}px`);
     root.style.setProperty('--sidebar-font-size', `${prefs.sidebarFontSize}px`);
     root.style.setProperty('--toc-font-size', `${prefs.tocFontSize}px`);
+
+    const variant = COLOR_VARIANTS[prefs.colorVariant] || COLOR_VARIANTS.default;
+    root.style.setProperty('--folder-text-color', variant.folder[resolvedAppearance]);
+    root.style.setProperty('--file-text-color', variant.file[resolvedAppearance]);
 
     notifyAppearanceChange(resolvedAppearance, appearancePreference);
 }

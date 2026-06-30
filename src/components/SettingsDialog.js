@@ -113,6 +113,16 @@ export class SettingsDialog {
                                 <span class="settings-row__label">${t('settings.autoSave')}</span>
                                 <input type="checkbox" name="autoSave" class="settings-row__control settings-row__control--toggle" />
                             </label>
+                            <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.colorVariant')}</span>
+                                <select name="colorVariant" class="settings-row__control">
+                                    <option value="default">${t('settings.colorVariantDefault')}</option>
+                                    <option value="ocean">${t('settings.colorVariantOcean')}</option>
+                                    <option value="forest">${t('settings.colorVariantForest')}</option>
+                                    <option value="sunset">${t('settings.colorVariantSunset')}</option>
+                                    <option value="neutral">${t('settings.colorVariantNeutral')}</option>
+                                </select>
+                            </label>
                             ${isMac ? `
                             <div class="settings-row settings-row--default-app" data-ref="defaultAppRow">
                                 <span class="settings-row__label">${t('settings.defaultApp')}</span>
@@ -274,6 +284,7 @@ export class SettingsDialog {
         this.sidebarFontSizeInput = this.form.querySelector('input[name="sidebarFontSize"]');
         this.tocFontSizeInput = this.form.querySelector('input[name="tocFontSize"]');
         this.autoSaveCheckbox = this.form.querySelector('input[name="autoSave"]');
+        this.colorVariantSelect = this.form.querySelector('select[name="colorVariant"]');
 
         // Code 模式设置字段
         this.codeThemeSelect = this.form.querySelector('select[name="codeTheme"]');
@@ -471,6 +482,9 @@ export class SettingsDialog {
         if (this.autoSaveCheckbox) {
             this.autoSaveCheckbox.checked = editorPrefs.autoSave !== false;
         }
+        if (this.colorVariantSelect) {
+            this._setSelectValue(this.colorVariantSelect, editorPrefs.colorVariant || 'default');
+        }
         this.syncFontSelection(editorPrefs.fontFamily || '');
         this.fontSizeInput.value = Number(editorPrefs.fontSize) || 16;
         this.lineHeightInput.value = Number(editorPrefs.lineHeight) || 1.6;
@@ -636,6 +650,7 @@ export class SettingsDialog {
         const normalizedSidebarSize = Number.isFinite(sidebarFontSize) ? this.clamp(sidebarFontSize, 9, 24) : 12;
         const normalizedTocSize = Number.isFinite(tocFontSize) ? this.clamp(tocFontSize, 9, 24) : 12;
         const autoSave = this.autoSaveCheckbox ? Boolean(this.autoSaveCheckbox.checked) : true;
+        const colorVariant = (this.colorVariantSelect?.value || 'default').trim();
 
         const sanitized = {
             theme: theme,
@@ -655,6 +670,7 @@ export class SettingsDialog {
             sidebarFontSize: normalizedSidebarSize,
             tocFontSize: normalizedTocSize,
             autoSave,
+            colorVariant,
         };
 
         // AI 助手设置
