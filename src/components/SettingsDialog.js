@@ -130,6 +130,10 @@ export class SettingsDialog {
                                 <input type="number" name="tocFontSize" min="9" max="24" step="1" class="settings-row__control" />
                             </label>
                             <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.contentMaxWidth')}</span>
+                                <input type="number" name="contentMaxWidth" min="400" max="2000" step="50" class="settings-row__control" />
+                            </label>
+                            <label class="settings-row">
                                 <span class="settings-row__label">${t('settings.autoSave')}</span>
                                 <input type="checkbox" name="autoSave" class="settings-row__control settings-row__control--toggle" />
                             </label>
@@ -294,6 +298,7 @@ export class SettingsDialog {
         this.sidebarFontSizeInput = this.form.querySelector('input[name="sidebarFontSize"]');
         this.tocFontSizeInput = this.form.querySelector('input[name="tocFontSize"]');
         this.autoSaveCheckbox = this.form.querySelector('input[name="autoSave"]');
+        this.contentMaxWidthInput = this.form.querySelector('input[name="contentMaxWidth"]');
         this.colorVariantSelect = this.form.querySelector('select[name="colorVariant"]');
 
         // Code 模式设置字段
@@ -492,6 +497,9 @@ export class SettingsDialog {
         if (this.autoSaveCheckbox) {
             this.autoSaveCheckbox.checked = editorPrefs.autoSave !== false;
         }
+        if (this.contentMaxWidthInput) {
+            this.contentMaxWidthInput.value = Number(editorPrefs.contentMaxWidth) || 800;
+        }
         if (this.colorVariantSelect) {
             this._setSelectValue(this.colorVariantSelect, editorPrefs.colorVariant || 'v1');
         }
@@ -660,6 +668,8 @@ export class SettingsDialog {
         const normalizedSidebarSize = Number.isFinite(sidebarFontSize) ? this.clamp(sidebarFontSize, 9, 24) : 12;
         const normalizedTocSize = Number.isFinite(tocFontSize) ? this.clamp(tocFontSize, 9, 24) : 12;
         const autoSave = this.autoSaveCheckbox ? Boolean(this.autoSaveCheckbox.checked) : true;
+        const contentMaxWidth = Number(this.contentMaxWidthInput?.value);
+        const normalizedMaxWidth = Number.isFinite(contentMaxWidth) ? this.clamp(contentMaxWidth, 400, 2000) : 800;
         const colorVariant = (this.colorVariantSelect?.value || 'v1').trim();
 
         const sanitized = {
@@ -680,6 +690,7 @@ export class SettingsDialog {
             sidebarFontSize: normalizedSidebarSize,
             tocFontSize: normalizedTocSize,
             autoSave,
+            contentMaxWidth: normalizedMaxWidth,
             colorVariant,
         };
 

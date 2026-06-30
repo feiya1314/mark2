@@ -602,7 +602,7 @@
 }
 
 .view-pane.markdown-pane.content-centered .markdown-content .tiptap-editor {
-    max-width: 800px;
+    max-width: var(--content-max-width, 800px);
     width: 100%;
 }
 

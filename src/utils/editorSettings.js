@@ -102,6 +102,7 @@ export const defaultEditorSettings = {
     sidebarFontSize: 12,
     tocFontSize: 12,
     autoSave: true,
+    contentMaxWidth: 800,
     colorVariant: 'v1',
 };
 
@@ -244,6 +245,13 @@ export function normalizeEditorSettings(candidate) {
             prefs.autoSave = candidate.autoSave !== false;
         }
 
+        if (candidate.contentMaxWidth !== undefined) {
+            const w = Number(candidate.contentMaxWidth);
+            if (Number.isFinite(w)) {
+                prefs.contentMaxWidth = clamp(w, 400, 2000);
+            }
+        }
+
         if (typeof candidate.colorVariant === 'string' && COLOR_VARIANTS[candidate.colorVariant]) {
             prefs.colorVariant = candidate.colorVariant;
         }
@@ -311,6 +319,7 @@ export function applyEditorSettings(settings) {
     root.style.setProperty('--tab-font-size', `${prefs.tabFontSize}px`);
     root.style.setProperty('--sidebar-font-size', `${prefs.sidebarFontSize}px`);
     root.style.setProperty('--toc-font-size', `${prefs.tocFontSize}px`);
+    root.style.setProperty('--content-max-width', `${prefs.contentMaxWidth}px`);
 
     const variant = COLOR_VARIANTS[prefs.colorVariant] || COLOR_VARIANTS.v1;
     root.style.setProperty('--folder-text-color', variant.folder[resolvedAppearance]);

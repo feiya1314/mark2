@@ -309,6 +309,7 @@
     "settings.tabFontSize": "Tab Font Size",
     "settings.sidebarFontSize": "Sidebar Font Size",
     "settings.tocFontSize": "TOC Font Size",
+    "settings.contentMaxWidth": "Content Max Width (px)",
     "settings.autoSave": "Auto Save",
     "settings.colorVariant": "Folder & File Color",
     "settings.colorVariant1": "Coral Peach",
