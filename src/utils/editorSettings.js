@@ -9,18 +9,18 @@ const VALID_APPEARANCES = new Set(['light', 'dark', 'system']);
 export const COLOR_VARIANTS = {
     v1: {
         labelKey: 'settings.colorVariant1',
-        folder: { light: '#f38181', dark: '#fce38a' },
-        file: { light: '#95e1d3', dark: '#eaffd0' },
+        folder: { light: '#95e1d3', dark: '#fce38a' },
+        file: { light: '#f38181', dark: '#eaffd0' },
     },
     v2: {
         labelKey: 'settings.colorVariant2',
-        folder: { light: '#71c9ce', dark: '#cbf1f5' },
-        file: { light: '#a6e3e9', dark: '#e3fdfd' },
+        folder: { light: '#a6e3e9', dark: '#cbf1f5' },
+        file: { light: '#71c9ce', dark: '#e3fdfd' },
     },
     v3: {
         labelKey: 'settings.colorVariant3',
-        folder: { light: '#aa96da', dark: '#fcbad3' },
-        file: { light: '#a8d8ea', dark: '#ffffd2' },
+        folder: { light: '#a8d8ea', dark: '#fcbad3' },
+        file: { light: '#aa96da', dark: '#ffffd2' },
     },
     v4: {
         labelKey: 'settings.colorVariant4',
@@ -29,38 +29,38 @@ export const COLOR_VARIANTS = {
     },
     v5: {
         labelKey: 'settings.colorVariant5',
-        folder: { light: '#61c0bf', dark: '#bbded6' },
-        file: { light: '#ffb6b9', dark: '#fae3d9' },
+        folder: { light: '#ffb6b9', dark: '#bbded6' },
+        file: { light: '#61c0bf', dark: '#fae3d9' },
     },
     v6: {
         labelKey: 'settings.colorVariant6',
-        folder: { light: '#ffaaa5', dark: '#ffd3b6' },
-        file: { light: '#a8e6cf', dark: '#dcedc1' },
+        folder: { light: '#a8e6cf', dark: '#ffd3b6' },
+        file: { light: '#ffaaa5', dark: '#dcedc1' },
     },
     v7: {
         labelKey: 'settings.colorVariant7',
-        folder: { light: '#355c7d', dark: '#c06c84' },
-        file: { light: '#6c5b7b', dark: '#f67280' },
+        folder: { light: '#6c5b7b', dark: '#c06c84' },
+        file: { light: '#355c7d', dark: '#f67280' },
     },
     v8: {
         labelKey: 'settings.colorVariant8',
-        folder: { light: '#ff8c94', dark: '#ffd3b5' },
-        file: { light: '#ffaaa6', dark: '#dcedc2' },
+        folder: { light: '#ffaaa6', dark: '#ffd3b5' },
+        file: { light: '#ff8c94', dark: '#dcedc2' },
     },
     v9: {
         labelKey: 'settings.colorVariant9',
-        folder: { light: '#625772', dark: '#a9eee6' },
-        file: { light: '#f9a1bc', dark: '#fefaec' },
+        folder: { light: '#f9a1bc', dark: '#a9eee6' },
+        file: { light: '#625772', dark: '#fefaec' },
     },
     v10: {
         labelKey: 'settings.colorVariant10',
-        folder: { light: '#ffaaa5', dark: '#ffd3b6' },
-        file: { light: '#a8e6cf', dark: '#fdffab' },
+        folder: { light: '#a8e6cf', dark: '#ffd3b6' },
+        file: { light: '#ffaaa5', dark: '#fdffab' },
     },
     v11: {
         labelKey: 'settings.colorVariant11',
-        folder: { light: '#625772', dark: '#a9eee6' },
-        file: { light: '#f38181', dark: '#fefaec' },
+        folder: { light: '#f38181', dark: '#a9eee6' },
+        file: { light: '#625772', dark: '#fefaec' },
     },
     v12: {
         labelKey: 'settings.colorVariant12',
@@ -74,13 +74,38 @@ export const COLOR_VARIANTS = {
     },
     v14: {
         labelKey: 'settings.colorVariant14',
-        folder: { light: '#8971d0', dark: '#95e8d7' },
-        file: { light: '#7dace4', dark: '#adf7d1' },
+        folder: { light: '#7dace4', dark: '#95e8d7' },
+        file: { light: '#8971d0', dark: '#adf7d1' },
     },
     v15: {
         labelKey: 'settings.colorVariant15',
-        folder: { light: '#649dad', dark: '#a4e5d9' },
-        file: { light: '#66c6ba', dark: '#c8f4de' },
+        folder: { light: '#66c6ba', dark: '#a4e5d9' },
+        file: { light: '#649dad', dark: '#c8f4de' },
+    },
+    v16: {
+        labelKey: 'settings.colorVariant16',
+        folder: { light: '#b8a9c9', dark: '#9f8db3' },
+        file: { light: '#3d4452', dark: '#d5dce6' },
+    },
+    v17: {
+        labelKey: 'settings.colorVariant17',
+        folder: { light: '#a3b5ae', dark: '#81948c' },
+        file: { light: '#2d4a3a', dark: '#c0d4c5' },
+    },
+    v18: {
+        labelKey: 'settings.colorVariant18',
+        folder: { light: '#c6b09c', dark: '#a8907c' },
+        file: { light: '#4a3728', dark: '#ddd0be' },
+    },
+    v19: {
+        labelKey: 'settings.colorVariant19',
+        folder: { light: '#a5b5c9', dark: '#8595a8' },
+        file: { light: '#263445', dark: '#c9d6e8' },
+    },
+    v20: {
+        labelKey: 'settings.colorVariant20',
+        folder: { light: '#bfaec9', dark: '#9f8da8' },
+        file: { light: '#363545', dark: '#d5cce0' },
     },
 };
 

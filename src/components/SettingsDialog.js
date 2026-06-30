@@ -107,6 +107,11 @@ export class SettingsDialog {
                                     <option value="v13">${t('settings.colorVariant13')}</option>
                                     <option value="v14">${t('settings.colorVariant14')}</option>
                                     <option value="v15">${t('settings.colorVariant15')}</option>
+                                    <option value="v16">${t('settings.colorVariant16')}</option>
+                                    <option value="v17">${t('settings.colorVariant17')}</option>
+                                    <option value="v18">${t('settings.colorVariant18')}</option>
+                                    <option value="v19">${t('settings.colorVariant19')}</option>
+                                    <option value="v20">${t('settings.colorVariant20')}</option>
                                 </select>
                             </label>
                             <label class="settings-row">
