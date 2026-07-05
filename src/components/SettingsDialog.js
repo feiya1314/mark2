@@ -4,6 +4,7 @@ import { t, getLocale, setLocale } from '../i18n/index.js';
 import { KeybindingsSettings } from './KeybindingsSettings.js';
 import { saveCustomKeybindings } from '../utils/keybindingsStorage.js';
 import { PROVIDER_PRESETS } from '../modules/ai-assistant/providerPresets.js';
+import { COLOR_VARIANTS } from '../utils/editorSettings.js';
 import {
     getCloudProvider,
     listCloudProviders,
@@ -91,28 +92,16 @@ export class SettingsDialog {
                             </label>
                             <label class="settings-row">
                                 <span class="settings-row__label">${t('settings.colorVariant')}</span>
-                                <select name="colorVariant" class="settings-row__control">
-                                    <option value="v1">${t('settings.colorVariant1')}</option>
-                                    <option value="v2">${t('settings.colorVariant2')}</option>
-                                    <option value="v3">${t('settings.colorVariant3')}</option>
-                                    <option value="v4">${t('settings.colorVariant4')}</option>
-                                    <option value="v5">${t('settings.colorVariant5')}</option>
-                                    <option value="v6">${t('settings.colorVariant6')}</option>
-                                    <option value="v7">${t('settings.colorVariant7')}</option>
-                                    <option value="v8">${t('settings.colorVariant8')}</option>
-                                    <option value="v9">${t('settings.colorVariant9')}</option>
-                                    <option value="v10">${t('settings.colorVariant10')}</option>
-                                    <option value="v11">${t('settings.colorVariant11')}</option>
-                                    <option value="v12">${t('settings.colorVariant12')}</option>
-                                    <option value="v13">${t('settings.colorVariant13')}</option>
-                                    <option value="v14">${t('settings.colorVariant14')}</option>
-                                    <option value="v15">${t('settings.colorVariant15')}</option>
-                                    <option value="v16">${t('settings.colorVariant16')}</option>
-                                    <option value="v17">${t('settings.colorVariant17')}</option>
-                                    <option value="v18">${t('settings.colorVariant18')}</option>
-                                    <option value="v19">${t('settings.colorVariant19')}</option>
-                                    <option value="v20">${t('settings.colorVariant20')}</option>
-                                </select>
+                                <div class="settings-color-pickers">
+                                    <label class="settings-color-picker">
+                                        <span class="settings-color-picker__label">Folder</span>
+                                        <input type="color" name="folderColor" class="settings-row__control settings-row__control--color" />
+                                    </label>
+                                    <label class="settings-color-picker">
+                                        <span class="settings-color-picker__label">File</span>
+                                        <input type="color" name="fileColor" class="settings-row__control settings-row__control--color" />
+                                    </label>
+                                </div>
                             </label>
                             <label class="settings-row">
                                 <span class="settings-row__label">${t('settings.language')}</span>
@@ -314,7 +303,8 @@ export class SettingsDialog {
         this.showDotFilesCheckbox = this.form.querySelector('input[name="showDotFiles"]');
         this.showAssetsFolderCheckbox = this.form.querySelector('input[name="showAssetsFolder"]');
         this.contentMaxWidthInput = this.form.querySelector('input[name="contentMaxWidth"]');
-        this.colorVariantSelect = this.form.querySelector('select[name="colorVariant"]');
+        this.folderColorInput = this.form.querySelector('input[name="folderColor"]');
+        this.fileColorInput = this.form.querySelector('input[name="fileColor"]');
 
         // Code 模式设置字段
         this.codeThemeSelect = this.form.querySelector('select[name="codeTheme"]');
@@ -521,8 +511,15 @@ export class SettingsDialog {
         if (this.contentMaxWidthInput) {
             this.contentMaxWidthInput.value = Number(editorPrefs.contentMaxWidth) || 800;
         }
-        if (this.colorVariantSelect) {
-            this._setSelectValue(this.colorVariantSelect, editorPrefs.colorVariant || 'v1');
+        if (this.folderColorInput) {
+            const variant = COLOR_VARIANTS[editorPrefs.colorVariant] || COLOR_VARIANTS.v1;
+            const defaultFolder = variant.folder.light;
+            this.folderColorInput.value = editorPrefs.folderColor || defaultFolder;
+        }
+        if (this.fileColorInput) {
+            const variant = COLOR_VARIANTS[editorPrefs.colorVariant] || COLOR_VARIANTS.v1;
+            const defaultFile = variant.file.light;
+            this.fileColorInput.value = editorPrefs.fileColor || defaultFile;
         }
         this.syncFontSelection(editorPrefs.fontFamily || '');
         this.fontSizeInput.value = Number(editorPrefs.fontSize) || 16;
@@ -693,7 +690,8 @@ export class SettingsDialog {
         const showAssetsFolder = this.showAssetsFolderCheckbox ? Boolean(this.showAssetsFolderCheckbox.checked) : true;
         const contentMaxWidth = Number(this.contentMaxWidthInput?.value);
         const normalizedMaxWidth = Number.isFinite(contentMaxWidth) ? this.clamp(contentMaxWidth, 400, 2000) : 800;
-        const colorVariant = (this.colorVariantSelect?.value || 'v1').trim();
+        const folderColor = this.folderColorInput?.value || '';
+        const fileColor = this.fileColorInput?.value || '';
 
         const sanitized = {
             theme: theme,
@@ -716,7 +714,8 @@ export class SettingsDialog {
             showDotFiles,
             showAssetsFolder,
             contentMaxWidth: normalizedMaxWidth,
-            colorVariant,
+            folderColor,
+            fileColor,
         };
 
         // AI 助手设置

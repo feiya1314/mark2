@@ -129,6 +129,8 @@ export const defaultEditorSettings = {
     autoSave: true,
     contentMaxWidth: 800,
     colorVariant: 'v1',
+    folderColor: '',
+    fileColor: '',
     showDotFiles: true,
     showAssetsFolder: true,
 };
@@ -283,6 +285,16 @@ export function normalizeEditorSettings(candidate) {
             prefs.colorVariant = candidate.colorVariant;
         }
 
+        if (typeof candidate.folderColor === 'string') {
+            const trimmed = candidate.folderColor.trim();
+            prefs.folderColor = /^#[0-9a-f]{6}$/i.test(trimmed) ? trimmed : '';
+        }
+
+        if (typeof candidate.fileColor === 'string') {
+            const trimmed = candidate.fileColor.trim();
+            prefs.fileColor = /^#[0-9a-f]{6}$/i.test(trimmed) ? trimmed : '';
+        }
+
         if (candidate.showDotFiles !== undefined) {
             prefs.showDotFiles = candidate.showDotFiles !== false;
         }
@@ -357,8 +369,8 @@ export function applyEditorSettings(settings) {
     root.style.setProperty('--content-max-width', `${prefs.contentMaxWidth}px`);
 
     const variant = COLOR_VARIANTS[prefs.colorVariant] || COLOR_VARIANTS.v1;
-    root.style.setProperty('--folder-text-color', variant.folder[resolvedAppearance]);
-    root.style.setProperty('--file-text-color', variant.file[resolvedAppearance]);
+    root.style.setProperty('--folder-text-color', prefs.folderColor || variant.folder[resolvedAppearance]);
+    root.style.setProperty('--file-text-color', prefs.fileColor || variant.file[resolvedAppearance]);
 
     notifyAppearanceChange(resolvedAppearance, appearancePreference);
 }
