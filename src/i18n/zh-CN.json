@@ -311,6 +311,8 @@
     "settings.tocFontSize": "大纲字号",
     "settings.contentMaxWidth": "内容最大宽度(px)",
     "settings.autoSave": "自动保存",
+    "settings.showDotFiles": "显示隐藏文件（. 开头的文件）",
+    "settings.showAssetsFolder": "显示 assets 文件夹",
     "settings.colorVariant": "文件夹与文件颜色",
     "settings.colorVariant1": "珊瑚桃",
     "settings.colorVariant2": "冰霜青",

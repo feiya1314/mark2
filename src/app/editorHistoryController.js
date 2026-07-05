@@ -12,6 +12,7 @@ export function createEditorHistoryController({
     getEditorSettings,
     setEditorSettings,
     reloadKeybindings,
+    getFileTree,
 }) {
     async function handleSettingsSubmit(nextSettings) {
         const currentSettings = getEditorSettings();
@@ -22,6 +23,7 @@ export function createEditorHistoryController({
         getCodeEditor()?.applyPreferences?.(normalizedSettings);
         saveEditorSettings(normalizedSettings);
         reloadKeybindings?.();
+        getFileTree?.()?.refreshCurrentFolder?.();
     }
 
     return {

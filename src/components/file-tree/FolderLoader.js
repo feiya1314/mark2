@@ -18,6 +18,7 @@ export class FolderLoader {
             shouldDefer,
             onRefreshDeferred,
             onBeforeRefresh,
+            getEditorSettings,
         } = options;
 
         this.container = container;
@@ -32,6 +33,7 @@ export class FolderLoader {
         this.shouldDefer = shouldDefer;
         this.onRefreshDeferred = onRefreshDeferred;
         this.onBeforeRefresh = onBeforeRefresh;
+        this.getEditorSettings = getEditorSettings;
 
         // 记录每个 children 容器上次填充的内容签名，签名未变就跳过 DOM 重建，
         // 避免窗口聚焦/watcher 等无差别 refresh 触发整棵树闪一下。
@@ -77,11 +79,24 @@ export class FolderLoader {
         const fileService = this.getFileService();
         const { directories = [], files = [] } = await fileService.list(path);
 
+        const editorSettings = typeof this.getEditorSettings === 'function' ? this.getEditorSettings() : {};
+        const showDotFiles = editorSettings.showDotFiles !== false;
+        const showAssetsFolder = editorSettings.showAssetsFolder !== false;
+
         const folders = directories
-            .filter(entry => !this.shouldIgnoreFile(entry.name))
+            .filter(entry => {
+                if (this.shouldIgnoreFile(entry.name)) return false;
+                if (!showDotFiles && entry.name.startsWith('.')) return false;
+                if (!showAssetsFolder && entry.name === 'assets') return false;
+                return true;
+            })
             .map(entry => ({ path: entry.path, isDir: true }));
         const regularFiles = files
-            .filter(entry => !this.shouldIgnoreFile(entry.name))
+            .filter(entry => {
+                if (this.shouldIgnoreFile(entry.name)) return false;
+                if (!showDotFiles && entry.name.startsWith('.')) return false;
+                return true;
+            })
             .filter(entry => !isUnsupportedFilePath(entry.path))
             .map(entry => ({ path: entry.path, isDir: false }));
 

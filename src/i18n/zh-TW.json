@@ -310,6 +310,8 @@
     "settings.tocFontSize": "大綱字型大小",
     "settings.contentMaxWidth": "內容最大寬度(px)",
     "settings.autoSave": "自動儲存",
+    "settings.showDotFiles": "顯示隱藏檔案（. 開頭的檔案）",
+    "settings.showAssetsFolder": "顯示 assets 資料夾",
     "settings.colorVariant": "資料夾與檔案顏色",
     "settings.colorVariant1": "珊瑚桃",
     "settings.colorVariant2": "冰霜青",

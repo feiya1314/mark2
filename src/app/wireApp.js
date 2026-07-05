@@ -186,6 +186,7 @@ const editorHistoryController = createEditorHistoryController({
     getCodeEditor: () => editorRegistry.getCodeEditor(),
     getEditorSettings: () => appState.getEditorSettings(),
     setEditorSettings: (s) => appState.setEditorSettings(s),
+    getFileTree: () => appState.getFileTree(),
     reloadKeybindings: () => {
         // 清理旧的快捷键绑定，重新注册（含用户自定义覆盖）
         appState.getCleanupFunction('keybindingManager')?.();

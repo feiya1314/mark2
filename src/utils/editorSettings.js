@@ -129,6 +129,8 @@ export const defaultEditorSettings = {
     autoSave: true,
     contentMaxWidth: 800,
     colorVariant: 'v1',
+    showDotFiles: true,
+    showAssetsFolder: true,
 };
 
 function clamp(value, min, max) {
@@ -279,6 +281,14 @@ export function normalizeEditorSettings(candidate) {
 
         if (typeof candidate.colorVariant === 'string' && COLOR_VARIANTS[candidate.colorVariant]) {
             prefs.colorVariant = candidate.colorVariant;
+        }
+
+        if (candidate.showDotFiles !== undefined) {
+            prefs.showDotFiles = candidate.showDotFiles !== false;
+        }
+
+        if (candidate.showAssetsFolder !== undefined) {
+            prefs.showAssetsFolder = candidate.showAssetsFolder !== false;
         }
     }
 

@@ -38,6 +38,7 @@ export class FileTree {
             onRunFile,
             onOpenFileRequest,
             onOpenFolderRequest,
+            getEditorSettings,
             documentSessions = null,
         } = callbacks;
 
@@ -172,6 +173,7 @@ export class FileTree {
             shouldDefer: (path) => this.shouldDeferRefresh(path),
             onRefreshDeferred: (path) => this.pendingRefreshPaths.add(path),
             onBeforeRefresh: () => this.ensureRenamingState(),
+            getEditorSettings,
         });
 
         this.openFileManager = new OpenFileManager({

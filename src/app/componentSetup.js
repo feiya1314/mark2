@@ -111,6 +111,7 @@ export function setupFileTree({
         onPathRenamed: applyPathChange,
         onOpenFileRequest: onOpenFile,
         onOpenFolderRequest: onOpenFolder,
+        getEditorSettings: () => appState.getEditorSettings(),
         onCloseFileRequest: (path) => {
             if (!path) {
                 return;

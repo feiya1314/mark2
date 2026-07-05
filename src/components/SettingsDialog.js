@@ -142,6 +142,14 @@ export class SettingsDialog {
                                 <span class="settings-row__label">${t('settings.autoSave')}</span>
                                 <input type="checkbox" name="autoSave" class="settings-row__control settings-row__control--toggle" />
                             </label>
+                            <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.showDotFiles')}</span>
+                                <input type="checkbox" name="showDotFiles" class="settings-row__control settings-row__control--toggle" />
+                            </label>
+                            <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.showAssetsFolder')}</span>
+                                <input type="checkbox" name="showAssetsFolder" class="settings-row__control settings-row__control--toggle" />
+                            </label>
                             ${isMac ? `
                             <div class="settings-row settings-row--default-app" data-ref="defaultAppRow">
                                 <span class="settings-row__label">${t('settings.defaultApp')}</span>
@@ -303,6 +311,8 @@ export class SettingsDialog {
         this.sidebarFontSizeInput = this.form.querySelector('input[name="sidebarFontSize"]');
         this.tocFontSizeInput = this.form.querySelector('input[name="tocFontSize"]');
         this.autoSaveCheckbox = this.form.querySelector('input[name="autoSave"]');
+        this.showDotFilesCheckbox = this.form.querySelector('input[name="showDotFiles"]');
+        this.showAssetsFolderCheckbox = this.form.querySelector('input[name="showAssetsFolder"]');
         this.contentMaxWidthInput = this.form.querySelector('input[name="contentMaxWidth"]');
         this.colorVariantSelect = this.form.querySelector('select[name="colorVariant"]');
 
@@ -502,6 +512,12 @@ export class SettingsDialog {
         if (this.autoSaveCheckbox) {
             this.autoSaveCheckbox.checked = editorPrefs.autoSave !== false;
         }
+        if (this.showDotFilesCheckbox) {
+            this.showDotFilesCheckbox.checked = editorPrefs.showDotFiles !== false;
+        }
+        if (this.showAssetsFolderCheckbox) {
+            this.showAssetsFolderCheckbox.checked = editorPrefs.showAssetsFolder !== false;
+        }
         if (this.contentMaxWidthInput) {
             this.contentMaxWidthInput.value = Number(editorPrefs.contentMaxWidth) || 800;
         }
@@ -673,6 +689,8 @@ export class SettingsDialog {
         const normalizedSidebarSize = Number.isFinite(sidebarFontSize) ? this.clamp(sidebarFontSize, 9, 24) : 12;
         const normalizedTocSize = Number.isFinite(tocFontSize) ? this.clamp(tocFontSize, 9, 24) : 12;
         const autoSave = this.autoSaveCheckbox ? Boolean(this.autoSaveCheckbox.checked) : true;
+        const showDotFiles = this.showDotFilesCheckbox ? Boolean(this.showDotFilesCheckbox.checked) : true;
+        const showAssetsFolder = this.showAssetsFolderCheckbox ? Boolean(this.showAssetsFolderCheckbox.checked) : true;
         const contentMaxWidth = Number(this.contentMaxWidthInput?.value);
         const normalizedMaxWidth = Number.isFinite(contentMaxWidth) ? this.clamp(contentMaxWidth, 400, 2000) : 800;
         const colorVariant = (this.colorVariantSelect?.value || 'v1').trim();
@@ -695,6 +713,8 @@ export class SettingsDialog {
             sidebarFontSize: normalizedSidebarSize,
             tocFontSize: normalizedTocSize,
             autoSave,
+            showDotFiles,
+            showAssetsFolder,
             contentMaxWidth: normalizedMaxWidth,
             colorVariant,
         };
