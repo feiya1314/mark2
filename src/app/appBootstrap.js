@@ -348,13 +348,13 @@ export function createAppBootstrap({
         });
         appState.setFileWatcherController(fileWatcherController);
 
-        await restoreWorkspaceStateFromStorage();
-
         const loadedSettings = loadEditorSettings();
         appState.setEditorSettings(loadedSettings);
         applyEditorSettings(loadedSettings);
         codeEditor.applyPreferences?.(loadedSettings);
         saveEditorSettings(loadedSettings);
+
+        await restoreWorkspaceStateFromStorage();
 
         setupTitlebarControls();
         setupThemeToggle(appState);
