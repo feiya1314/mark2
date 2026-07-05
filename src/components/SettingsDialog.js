@@ -95,11 +95,11 @@ export class SettingsDialog {
                                 <div class="settings-color-pickers">
                                     <label class="settings-color-picker">
                                         <span class="settings-color-picker__label">Folder</span>
-                                        <input type="color" name="folderColor" class="settings-row__control settings-row__control--color" />
+                                        <input type="color" name="folderColor" class="settings-row__control--color" />
                                     </label>
                                     <label class="settings-color-picker">
                                         <span class="settings-color-picker__label">File</span>
-                                        <input type="color" name="fileColor" class="settings-row__control settings-row__control--color" />
+                                        <input type="color" name="fileColor" class="settings-row__control--color" />
                                     </label>
                                 </div>
                             </label>
