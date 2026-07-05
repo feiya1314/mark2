@@ -83,13 +83,11 @@ export class FolderLoader {
         const showDotFiles = editorSettings.showDotFiles !== false;
         const showAssetsFolder = editorSettings.showAssetsFolder !== false;
 
-        const isRootPath = this.state.isRootPath(path);
-
         const folders = directories
             .filter(entry => {
                 if (this.shouldIgnoreFile(entry.name)) return false;
                 if (!showDotFiles && entry.name.startsWith('.')) return false;
-                if (!showAssetsFolder && isRootPath && entry.name === 'assets') return false;
+                if (!showAssetsFolder && entry.name === 'assets') return false;
                 return true;
             })
             .map(entry => ({ path: entry.path, isDir: true }));
