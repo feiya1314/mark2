@@ -139,6 +139,10 @@ export class SettingsDialog {
                                 <span class="settings-row__label">${t('settings.showAssetsFolder')}</span>
                                 <input type="checkbox" name="showAssetsFolder" class="settings-row__control settings-row__control--toggle" />
                             </label>
+                            <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.checkForUpdates')}</span>
+                                <input type="checkbox" name="checkForUpdates" class="settings-row__control settings-row__control--toggle" />
+                            </label>
                             ${isMac ? `
                             <div class="settings-row settings-row--default-app" data-ref="defaultAppRow">
                                 <span class="settings-row__label">${t('settings.defaultApp')}</span>
@@ -302,6 +306,7 @@ export class SettingsDialog {
         this.autoSaveCheckbox = this.form.querySelector('input[name="autoSave"]');
         this.showDotFilesCheckbox = this.form.querySelector('input[name="showDotFiles"]');
         this.showAssetsFolderCheckbox = this.form.querySelector('input[name="showAssetsFolder"]');
+        this.checkForUpdatesCheckbox = this.form.querySelector('input[name="checkForUpdates"]');
         this.contentMaxWidthInput = this.form.querySelector('input[name="contentMaxWidth"]');
         this.folderColorInput = this.form.querySelector('input[name="folderColor"]');
         this.fileColorInput = this.form.querySelector('input[name="fileColor"]');
@@ -508,6 +513,9 @@ export class SettingsDialog {
         if (this.showAssetsFolderCheckbox) {
             this.showAssetsFolderCheckbox.checked = editorPrefs.showAssetsFolder !== false;
         }
+        if (this.checkForUpdatesCheckbox) {
+            this.checkForUpdatesCheckbox.checked = editorPrefs.checkForUpdates !== false;
+        }
         if (this.contentMaxWidthInput) {
             this.contentMaxWidthInput.value = Number(editorPrefs.contentMaxWidth) || 800;
         }
@@ -688,6 +696,7 @@ export class SettingsDialog {
         const autoSave = this.autoSaveCheckbox ? Boolean(this.autoSaveCheckbox.checked) : true;
         const showDotFiles = this.showDotFilesCheckbox ? Boolean(this.showDotFilesCheckbox.checked) : true;
         const showAssetsFolder = this.showAssetsFolderCheckbox ? Boolean(this.showAssetsFolderCheckbox.checked) : true;
+        const checkForUpdates = this.checkForUpdatesCheckbox ? Boolean(this.checkForUpdatesCheckbox.checked) : true;
         const contentMaxWidth = Number(this.contentMaxWidthInput?.value);
         const normalizedMaxWidth = Number.isFinite(contentMaxWidth) ? this.clamp(contentMaxWidth, 400, 2000) : 800;
         const folderColor = this.folderColorInput?.value || '';
@@ -713,6 +722,7 @@ export class SettingsDialog {
             autoSave,
             showDotFiles,
             showAssetsFolder,
+            checkForUpdates,
             contentMaxWidth: normalizedMaxWidth,
             folderColor,
             fileColor,

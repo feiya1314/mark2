@@ -312,6 +312,7 @@
     "settings.autoSave": "自動儲存",
     "settings.showDotFiles": "顯示隱藏檔案（. 開頭的檔案）",
     "settings.showAssetsFolder": "顯示 assets 資料夾",
+    "settings.checkForUpdates": "自動檢查更新",
     "settings.colorVariant": "資料夾與檔案顏色",
     "settings.colorVariant1": "珊瑚桃",
     "settings.colorVariant2": "冰霜青",

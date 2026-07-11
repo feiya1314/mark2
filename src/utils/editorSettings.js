@@ -133,6 +133,7 @@ export const defaultEditorSettings = {
     fileColor: '',
     showDotFiles: true,
     showAssetsFolder: true,
+    checkForUpdates: true,
 };
 
 function clamp(value, min, max) {
@@ -301,6 +302,10 @@ export function normalizeEditorSettings(candidate) {
 
         if (candidate.showAssetsFolder !== undefined) {
             prefs.showAssetsFolder = candidate.showAssetsFolder !== false;
+        }
+
+        if (candidate.checkForUpdates !== undefined) {
+            prefs.checkForUpdates = candidate.checkForUpdates !== false;
         }
     }
 

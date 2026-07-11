@@ -7,6 +7,7 @@ import { relaunch } from '@tauri-apps/plugin-process';
 import { invoke } from '@tauri-apps/api/core';
 import { addClickHandler } from '../utils/PointerHelper.js';
 import { createStore } from '../services/storage.js';
+import { loadEditorSettings } from '../utils/editorSettings.js';
 import { isMac } from '../utils/platform.js';
 import { t } from '../i18n/index.js';
 
@@ -25,19 +26,22 @@ let pendingUpdate = null;        // 已下载、待安装的 Update 对象
 let pendingUpdateVersion = null; // 待安装的版本号
 
 export function setupAutoUpdater() {
-    setTimeout(() => {
-        if (pendingUpdate) return;
-        checkAndDownload(false).catch(err => {
-            console.warn('[AutoUpdater] 启动检查更新失败:', err);
-        });
-    }, CHECK_DELAY_MS);
+    const settings = loadEditorSettings();
+    if (settings.checkForUpdates !== false) {
+        setTimeout(() => {
+            if (pendingUpdate) return;
+            checkAndDownload(false).catch(err => {
+                console.warn('[AutoUpdater] 启动检查更新失败:', err);
+            });
+        }, CHECK_DELAY_MS);
 
-    // 窗口重新激活时基于时间戳补检查，规避休眠导致定时器失效
-    document.addEventListener('visibilitychange', () => {
-        if (document.visibilityState === 'visible') {
-            runScheduledCheck();
-        }
-    });
+        // 窗口重新激活时基于时间戳补检查，规避休眠导致定时器失效
+        document.addEventListener('visibilitychange', () => {
+            if (document.visibilityState === 'visible') {
+                runScheduledCheck();
+            }
+        });
+    }
 }
 
 function runScheduledCheck() {

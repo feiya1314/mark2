@@ -313,6 +313,7 @@
     "settings.autoSave": "Auto Save",
     "settings.showDotFiles": "Show hidden files (dotfiles)",
     "settings.showAssetsFolder": "Show assets folder",
+    "settings.checkForUpdates": "Check for updates automatically",
     "settings.colorVariant": "Folder & File Color",
     "settings.colorVariant1": "Coral Peach",
     "settings.colorVariant2": "Ice Cyan",
