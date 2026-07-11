@@ -309,6 +309,7 @@
     "settings.tabFontSize": "标签页字号",
     "settings.sidebarFontSize": "侧边栏字号",
     "settings.tocFontSize": "大纲字号",
+    "settings.tocMaxLevel": "最大标题级别",
     "settings.contentMaxWidth": "内容最大宽度(px)",
     "settings.autoSave": "自动保存",
     "settings.showDotFiles": "显示隐藏文件（. 开头的文件）",

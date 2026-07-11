@@ -24,6 +24,7 @@ export function createEditorHistoryController({
         saveEditorSettings(normalizedSettings);
         reloadKeybindings?.();
         getFileTree?.()?.refreshCurrentFolder?.();
+        window.dispatchEvent(new CustomEvent('app:settings-changed'));
     }
 
     return {

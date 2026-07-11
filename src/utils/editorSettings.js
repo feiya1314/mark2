@@ -126,6 +126,7 @@ export const defaultEditorSettings = {
     tabFontSize: 12,
     sidebarFontSize: 12,
     tocFontSize: 12,
+    tocMaxLevel: 4,
     autoSave: true,
     contentMaxWidth: 800,
     colorVariant: 'v1',
@@ -268,6 +269,13 @@ export function normalizeEditorSettings(candidate) {
             const size = Number(candidate.tocFontSize);
             if (Number.isFinite(size)) {
                 prefs.tocFontSize = clamp(size, 9, 24);
+            }
+        }
+
+        if (candidate.tocMaxLevel !== undefined) {
+            const level = Number(candidate.tocMaxLevel);
+            if (Number.isFinite(level) && level >= 1 && level <= 6) {
+                prefs.tocMaxLevel = Math.round(level);
             }
         }
 

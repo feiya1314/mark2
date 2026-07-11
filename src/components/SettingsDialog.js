@@ -197,6 +197,17 @@ export class SettingsDialog {
                                     <option value="900">${t('settings.weightBlack')}</option>
                                 </select>
                             </label>
+                            <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.tocMaxLevel')}</span>
+                                <select name="tocMaxLevel" class="settings-row__control">
+                                    <option value="1">H1</option>
+                                    <option value="2">H1 ~ H2</option>
+                                    <option value="3">H1 ~ H3</option>
+                                    <option value="4">H1 ~ H4</option>
+                                    <option value="5">H1 ~ H5</option>
+                                    <option value="6">H1 ~ H6</option>
+                                </select>
+                            </label>
                         </div>
                     </section>
 
@@ -303,6 +314,7 @@ export class SettingsDialog {
         this.tabFontSizeInput = this.form.querySelector('input[name="tabFontSize"]');
         this.sidebarFontSizeInput = this.form.querySelector('input[name="sidebarFontSize"]');
         this.tocFontSizeInput = this.form.querySelector('input[name="tocFontSize"]');
+        this.tocMaxLevelSelect = this.form.querySelector('select[name="tocMaxLevel"]');
         this.autoSaveCheckbox = this.form.querySelector('input[name="autoSave"]');
         this.showDotFilesCheckbox = this.form.querySelector('input[name="showDotFiles"]');
         this.showAssetsFolderCheckbox = this.form.querySelector('input[name="showAssetsFolder"]');
@@ -504,6 +516,9 @@ export class SettingsDialog {
         if (this.tocFontSizeInput) {
             this.tocFontSizeInput.value = Number(editorPrefs.tocFontSize) || 12;
         }
+        if (this.tocMaxLevelSelect) {
+            this._setSelectValue(this.tocMaxLevelSelect, editorPrefs.tocMaxLevel || 4);
+        }
         if (this.autoSaveCheckbox) {
             this.autoSaveCheckbox.checked = editorPrefs.autoSave !== false;
         }
@@ -693,6 +708,7 @@ export class SettingsDialog {
         const normalizedTabSize = Number.isFinite(tabFontSize) ? this.clamp(tabFontSize, 9, 24) : 12;
         const normalizedSidebarSize = Number.isFinite(sidebarFontSize) ? this.clamp(sidebarFontSize, 9, 24) : 12;
         const normalizedTocSize = Number.isFinite(tocFontSize) ? this.clamp(tocFontSize, 9, 24) : 12;
+        const tocMaxLevel = this.tocMaxLevelSelect ? Number(this.tocMaxLevelSelect.value) : 4;
         const autoSave = this.autoSaveCheckbox ? Boolean(this.autoSaveCheckbox.checked) : true;
         const showDotFiles = this.showDotFilesCheckbox ? Boolean(this.showDotFilesCheckbox.checked) : true;
         const showAssetsFolder = this.showAssetsFolderCheckbox ? Boolean(this.showAssetsFolderCheckbox.checked) : true;
@@ -719,6 +735,7 @@ export class SettingsDialog {
             tabFontSize: normalizedTabSize,
             sidebarFontSize: normalizedSidebarSize,
             tocFontSize: normalizedTocSize,
+            tocMaxLevel,
             autoSave,
             showDotFiles,
             showAssetsFolder,

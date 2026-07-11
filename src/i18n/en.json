@@ -309,6 +309,7 @@
     "settings.tabFontSize": "Tab Font Size",
     "settings.sidebarFontSize": "Sidebar Font Size",
     "settings.tocFontSize": "TOC Font Size",
+    "settings.tocMaxLevel": "Max Heading Level",
     "settings.contentMaxWidth": "Content Max Width (px)",
     "settings.autoSave": "Auto Save",
     "settings.showDotFiles": "Show hidden files (dotfiles)",

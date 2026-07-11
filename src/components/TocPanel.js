@@ -1,6 +1,7 @@
 import { addClickHandler } from '../utils/PointerHelper.js';
 import { t } from '../i18n/index.js';
 import { createStore } from '../services/storage.js';
+import { loadEditorSettings } from '../utils/editorSettings.js';
 
 const store = createStore('toc');
 store.migrateFrom('toc-panel-width', 'width', { parse: (raw) => Number(raw) });
@@ -132,6 +133,10 @@ export class TocPanel {
 
         // 绑定滚动事件
         this.bindScrollEvent();
+
+        // 监听设置变更，触发重新渲染
+        this._settingsChangeHandler = () => this.markDirty();
+        window.addEventListener('app:settings-changed', this._settingsChangeHandler);
     }
 
     /**
@@ -247,8 +252,11 @@ export class TocPanel {
         const headings = [];
         const doc = this.editor.state.doc;
 
+        const settings = loadEditorSettings();
+        const maxLevel = settings.tocMaxLevel || 4;
+
         doc.descendants((node, pos) => {
-            if (node.type.name === 'heading' && node.attrs.level <= 4) {
+            if (node.type.name === 'heading' && node.attrs.level <= maxLevel) {
                 const text = node.textContent;
                 if (text.trim()) {
                     // 生成唯一 ID
@@ -346,8 +354,10 @@ export class TocPanel {
 
         if (!editorElement || !this.scrollContainer) return;
 
-        // 获取编辑器中对应的 DOM 元素
-        const headingElements = editorElement.querySelectorAll('h1, h2, h3, h4');
+        const settings = loadEditorSettings();
+        const maxLevel = settings.tocMaxLevel || 4;
+        const headingSelector = Array.from({ length: maxLevel }, (_, i) => `h${i + 1}`).join(', ');
+        const headingElements = editorElement.querySelectorAll(headingSelector);
 
         // 找到对应的标题元素
         let targetElement = null;
@@ -355,7 +365,7 @@ export class TocPanel {
 
         for (const el of headingElements) {
             const level = parseInt(el.tagName.substring(1));
-            if (level <= 4) {
+            if (level <= maxLevel) {
                 if (currentIndex === index) {
                     targetElement = el;
                     break;
@@ -407,7 +417,10 @@ export class TocPanel {
         const editorElement = this.editor?.view?.dom;
         if (!editorElement) return;
 
-        const headingElements = editorElement.querySelectorAll('h1, h2, h3, h4');
+        const settings = loadEditorSettings();
+        const maxLevel = settings.tocMaxLevel || 4;
+        const headingSelector = Array.from({ length: maxLevel }, (_, i) => `h${i + 1}`).join(', ');
+        const headingElements = editorElement.querySelectorAll(headingSelector);
         const scrollTop = this.scrollContainer.scrollTop;
 
         // 找到当前滚动位置之前最后一个标题
@@ -416,7 +429,7 @@ export class TocPanel {
 
         for (const el of headingElements) {
             const level = parseInt(el.tagName.substring(1));
-            if (level <= 4) {
+            if (level <= maxLevel) {
                 // 计算元素相对于滚动容器的累计偏移
                 let offsetTop = 0;
                 let element = el;
