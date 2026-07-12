@@ -127,6 +127,7 @@ export const defaultEditorSettings = {
     sidebarFontSize: 12,
     tocFontSize: 12,
     tocMaxLevel: 4,
+    tocDefaultExpanded: false,
     autoSave: true,
     contentMaxWidth: 800,
     colorVariant: 'v1',
@@ -277,6 +278,10 @@ export function normalizeEditorSettings(candidate) {
             if (Number.isFinite(level) && level >= 1 && level <= 6) {
                 prefs.tocMaxLevel = Math.round(level);
             }
+        }
+
+        if (candidate.tocDefaultExpanded !== undefined) {
+            prefs.tocDefaultExpanded = candidate.tocDefaultExpanded !== false;
         }
 
         if (candidate.autoSave !== undefined) {

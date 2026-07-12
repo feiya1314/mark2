@@ -28,6 +28,9 @@ export class TocPanel {
         this.isDirty = true;
         this.editorUpdateHandler = null;
         this.resizeCleanup = null;
+        this.collapsedHeadings = new Set();
+        this._headingsCount = 0;
+        this._lastDefaultExpanded = false;
         // 'left' | 'right'，默认 right（DOM 默认顺序就是 toc 在 content-main 之后）
         this.position = store.get('position', 'right') === 'left' ? 'left' : 'right';
     }
@@ -287,11 +290,139 @@ export class TocPanel {
     }
 
     /**
+     * 构建标题层级树
+     * @param {Array} headings - 扁平标题列表
+     * @returns {Array} 树形结构 [{ heading, children }]
+     */
+    buildHierarchy(headings) {
+        const root = [];
+        const stack = [{ level: 0, children: root }];
+
+        for (const h of headings) {
+            const node = { heading: h, children: [] };
+            while (stack.length > 0 && stack[stack.length - 1].level >= h.level) {
+                stack.pop();
+            }
+            stack[stack.length - 1].children.push(node);
+            stack.push({ level: h.level, children: node.children });
+        }
+
+        return root;
+    }
+
+    /**
+     * 初始化折叠状态
+     * @param {boolean} defaultExpanded
+     */
+    _initCollapsedState(defaultExpanded) {
+        this.collapsedHeadings.clear();
+        if (!defaultExpanded) {
+            const hierarchy = this.buildHierarchy(this.headings);
+            this._collectCollapsedIds(hierarchy);
+        }
+    }
+
+    /**
+     * 递归收集所有需要折叠的标题 ID
+     */
+    _collectCollapsedIds(nodes) {
+        for (const node of nodes) {
+            if (node.children.length > 0) {
+                this.collapsedHeadings.add(node.heading.id);
+                this._collectCollapsedIds(node.children);
+            }
+        }
+    }
+
+    /**
+     * 递归渲染标题节点
+     */
+    _renderNode(node, indexRef) {
+        const { heading, children } = node;
+        const index = indexRef.current;
+        indexRef.current++;
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'toc-panel__node';
+
+        const item = document.createElement('a');
+        item.className = `toc-panel__item toc-panel__item--level${heading.level}`;
+        item.setAttribute('data-heading-id', heading.id);
+        item.setAttribute('data-heading-index', index);
+
+        if (children.length > 0) {
+            const isCollapsed = this.collapsedHeadings.has(heading.id);
+            const toggle = document.createElement('span');
+            toggle.className = `toc-panel__toggle${isCollapsed ? ' is-collapsed' : ''}`;
+            toggle.innerHTML = `<svg width="10" height="10" viewBox="0 0 10 10"><path d="M2 3 L5 6 L8 3" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>`;
+
+            const toggleCleanup = addClickHandler(toggle, (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                this.toggleCollapse(heading.id);
+            });
+            if (toggleCleanup) this.clickCleanups.push(toggleCleanup);
+
+            item.appendChild(toggle);
+        } else {
+            const spacer = document.createElement('span');
+            spacer.className = 'toc-panel__spacer';
+            item.appendChild(spacer);
+        }
+
+        const textSpan = document.createElement('span');
+        textSpan.className = 'toc-panel__text';
+        textSpan.textContent = heading.text;
+        item.appendChild(textSpan);
+
+        const clickCleanup = addClickHandler(item, (e) => {
+            e.preventDefault();
+            this.scrollToHeading(index);
+        });
+        if (clickCleanup) this.clickCleanups.push(clickCleanup);
+
+        wrapper.appendChild(item);
+
+        if (children.length > 0) {
+            const isCollapsed = this.collapsedHeadings.has(heading.id);
+            const childrenContainer = document.createElement('div');
+            childrenContainer.className = 'toc-panel__children';
+            if (isCollapsed) {
+                childrenContainer.style.display = 'none';
+            }
+
+            for (const child of children) {
+                childrenContainer.appendChild(this._renderNode(child, indexRef));
+            }
+            wrapper.appendChild(childrenContainer);
+        }
+
+        return wrapper;
+    }
+
+    /**
+     * 切换标题折叠/展开
+     * @param {string} headingId
+     */
+    toggleCollapse(headingId) {
+        if (this.collapsedHeadings.has(headingId)) {
+            this.collapsedHeadings.delete(headingId);
+        } else {
+            this.collapsedHeadings.add(headingId);
+        }
+        this.render();
+    }
+
+    /**
      * 渲染目录列表
      */
     render() {
         if (!this.container || !this.isVisible) return;
 
+        const settings = loadEditorSettings();
+        const defaultExpanded = !!settings.tocDefaultExpanded;
+
+        const prevCount = this._headingsCount;
         this.headings = this.extractHeadings();
 
         const content = this.container.querySelector('.toc-panel__content');
@@ -301,10 +432,17 @@ export class TocPanel {
             content.innerHTML = '';
             empty.style.display = 'flex';
             this.isDirty = false;
+            this._headingsCount = 0;
             return;
         }
 
         empty.style.display = 'none';
+
+        if (this.headings.length !== prevCount || this._lastDefaultExpanded !== defaultExpanded) {
+            this._initCollapsedState(defaultExpanded);
+            this._lastDefaultExpanded = defaultExpanded;
+        }
+        this._headingsCount = this.headings.length;
 
         // 清理之前的点击事件
         this.clickCleanups.forEach(cleanup => {
@@ -314,28 +452,15 @@ export class TocPanel {
         });
         this.clickCleanups = [];
 
-        // 创建目录列表
+        // 构建层级树并渲染
+        const hierarchy = this.buildHierarchy(this.headings);
         const list = document.createElement('div');
         list.className = 'toc-panel__list';
 
-        this.headings.forEach((heading, index) => {
-            const item = document.createElement('a');
-            item.className = `toc-panel__item toc-panel__item--level${heading.level}`;
-            item.setAttribute('data-heading-id', heading.id);
-            item.setAttribute('data-heading-index', index);
-            item.textContent = heading.text;
-
-            const cleanup = addClickHandler(item, (e) => {
-                e.preventDefault();
-                this.scrollToHeading(index);
-            });
-
-            if (cleanup) {
-                this.clickCleanups.push(cleanup);
-            }
-
-            list.appendChild(item);
-        });
+        const indexRef = { current: 0 };
+        for (const node of hierarchy) {
+            list.appendChild(this._renderNode(node, indexRef));
+        }
 
         content.innerHTML = '';
         content.appendChild(list);

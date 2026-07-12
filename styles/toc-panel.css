@@ -146,19 +146,29 @@ body.toc-resizing {
     flex-direction: column;
 }
 
+/* 目录节点容器 */
+.toc-panel__node {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 子标题容器 */
+.toc-panel__children {
+    padding-left: 14px;
+}
+
 /* 目录项 —— 字号由 settings 控制（--toc-font-size） */
 .toc-panel__item {
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 3px 14px;
+    padding-left: 4px;
     font-size: var(--toc-font-size, 12px);
     line-height: 1.5;
     color: rgba(0, 0, 0, 0.55);
     text-decoration: none;
     cursor: pointer;
     transition: color 0.1s ease, background 0.1s ease;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .toc-panel__item:hover {
@@ -187,32 +197,96 @@ body.toc-resizing {
     background: rgba(88, 166, 255, 0.08);
 }
 
-/* 不同级别的标题缩进 —— 字号统一由 --toc-font-size 控制；level 3/4 略小一档保留层级感 */
+/* 展开/折叠按钮 */
+.toc-panel__toggle,
+.toc-panel__spacer {
+    flex: 0 0 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toc-panel__toggle {
+    cursor: pointer;
+    color: rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    transition: color 0.1s ease, background 0.1s ease;
+}
+
+.toc-panel__toggle:hover {
+    color: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.05);
+}
+
+:root[data-theme-appearance='dark'] .toc-panel__toggle {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+:root[data-theme-appearance='dark'] .toc-panel__toggle:hover {
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.toc-panel__toggle.is-collapsed svg {
+    transform: rotate(-90deg);
+}
+
+.toc-panel__toggle svg {
+    transition: transform 0.15s ease;
+}
+
+/* 标题文本 */
+.toc-panel__text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+}
+
+/* 不同级别的标题样式 */
 .toc-panel__item--level1 {
     font-weight: 600;
-    padding-left: 14px;
 }
 
 .toc-panel__item--level2 {
     font-weight: 500;
-    padding-left: 24px;
 }
 
 .toc-panel__item--level3 {
     font-weight: 400;
-    padding-left: 34px;
     font-size: calc(var(--toc-font-size, 12px) - 0.5px);
 }
 
 .toc-panel__item--level4 {
     font-weight: 400;
-    padding-left: 44px;
     font-size: calc(var(--toc-font-size, 12px) - 1px);
     color: rgba(0, 0, 0, 0.4);
 }
 
 :root[data-theme-appearance='dark'] .toc-panel__item--level4 {
     color: rgba(255, 255, 255, 0.4);
+}
+
+.toc-panel__item--level5 {
+    font-weight: 400;
+    font-size: calc(var(--toc-font-size, 12px) - 1px);
+    color: rgba(0, 0, 0, 0.35);
+}
+
+:root[data-theme-appearance='dark'] .toc-panel__item--level5 {
+    color: rgba(255, 255, 255, 0.35);
+}
+
+.toc-panel__item--level6 {
+    font-weight: 400;
+    font-size: calc(var(--toc-font-size, 12px) - 1px);
+    color: rgba(0, 0, 0, 0.3);
+}
+
+:root[data-theme-appearance='dark'] .toc-panel__item--level6 {
+    color: rgba(255, 255, 255, 0.3);
 }
 
 /* 空状态 */

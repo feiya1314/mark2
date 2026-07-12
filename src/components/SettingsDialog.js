@@ -208,6 +208,10 @@ export class SettingsDialog {
                                     <option value="6">H1 ~ H6</option>
                                 </select>
                             </label>
+                            <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.tocDefaultExpanded')}</span>
+                                <input type="checkbox" name="tocDefaultExpanded" class="settings-row__control settings-row__control--toggle" />
+                            </label>
                         </div>
                     </section>
 
@@ -315,6 +319,7 @@ export class SettingsDialog {
         this.sidebarFontSizeInput = this.form.querySelector('input[name="sidebarFontSize"]');
         this.tocFontSizeInput = this.form.querySelector('input[name="tocFontSize"]');
         this.tocMaxLevelSelect = this.form.querySelector('select[name="tocMaxLevel"]');
+        this.tocDefaultExpandedCheckbox = this.form.querySelector('input[name="tocDefaultExpanded"]');
         this.autoSaveCheckbox = this.form.querySelector('input[name="autoSave"]');
         this.showDotFilesCheckbox = this.form.querySelector('input[name="showDotFiles"]');
         this.showAssetsFolderCheckbox = this.form.querySelector('input[name="showAssetsFolder"]');
@@ -518,6 +523,9 @@ export class SettingsDialog {
         }
         if (this.tocMaxLevelSelect) {
             this._setSelectValue(this.tocMaxLevelSelect, editorPrefs.tocMaxLevel || 4);
+        }
+        if (this.tocDefaultExpandedCheckbox) {
+            this.tocDefaultExpandedCheckbox.checked = editorPrefs.tocDefaultExpanded !== false;
         }
         if (this.autoSaveCheckbox) {
             this.autoSaveCheckbox.checked = editorPrefs.autoSave !== false;
@@ -736,6 +744,7 @@ export class SettingsDialog {
             sidebarFontSize: normalizedSidebarSize,
             tocFontSize: normalizedTocSize,
             tocMaxLevel,
+            tocDefaultExpanded: this.tocDefaultExpandedCheckbox ? Boolean(this.tocDefaultExpandedCheckbox.checked) : false,
             autoSave,
             showDotFiles,
             showAssetsFolder,
