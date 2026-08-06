@@ -377,6 +377,12 @@ export class TocPanel {
 
         const clickCleanup = addClickHandler(item, (e) => {
             e.preventDefault();
+            if (children.length > 0) {
+                const settings = loadEditorSettings();
+                if (settings.tocClickToToggle) {
+                    this.toggleCollapse(heading.id);
+                }
+            }
             this.scrollToHeading(index);
         });
         if (clickCleanup) this.clickCleanups.push(clickCleanup);
@@ -398,6 +404,36 @@ export class TocPanel {
         }
 
         return wrapper;
+    }
+
+    /**
+     * 自定义快速平滑滚动
+     * @param {HTMLElement} element - 滚动容器
+     * @param {number} targetPosition - 目标 scrollTop
+     * @param {number} duration - 动画时长（毫秒）
+     */
+    _fastSmoothScrollTo(element, targetPosition, duration = 250) {
+        const startPosition = element.scrollTop;
+        const distance = targetPosition - startPosition;
+        const startTime = performance.now();
+
+        function easeOutCubic(t) {
+            return 1 - Math.pow(1 - t, 3);
+        }
+
+        const scroll = (timestamp) => {
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOutCubic(progress);
+
+            element.scrollTop = startPosition + distance * easedProgress;
+
+            if (progress < 1) {
+                requestAnimationFrame(scroll);
+            }
+        };
+
+        requestAnimationFrame(scroll);
     }
 
     /**
@@ -516,17 +552,14 @@ export class TocPanel {
                 element = element.offsetParent;
             }
 
-            // 滚动到目标位置（留出顶部空间）
+            // 滚动到目标位置（留出顶部空间），使用自定义快速平滑动画
             const scrollTop = offsetTop - 80;
-            this.scrollContainer.scrollTo({
-                top: scrollTop,
-                behavior: 'smooth'
-            });
+            this._fastSmoothScrollTo(this.scrollContainer, scrollTop, 250);
 
-            // 滚动完成后恢复自动更新（使用较长延迟确保滚动完成）
+            // 滚动完成后恢复自动更新
             setTimeout(() => {
                 this.ignoreScrollUpdate = false;
-            }, 800);
+            }, 400);
         }
     }
 

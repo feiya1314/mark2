@@ -212,6 +212,10 @@ export class SettingsDialog {
                                 <span class="settings-row__label">${t('settings.tocDefaultExpanded')}</span>
                                 <input type="checkbox" name="tocDefaultExpanded" class="settings-row__control settings-row__control--toggle" />
                             </label>
+                            <label class="settings-row">
+                                <span class="settings-row__label">${t('settings.tocClickToToggle')}</span>
+                                <input type="checkbox" name="tocClickToToggle" class="settings-row__control settings-row__control--toggle" />
+                            </label>
                         </div>
                     </section>
 
@@ -320,6 +324,7 @@ export class SettingsDialog {
         this.tocFontSizeInput = this.form.querySelector('input[name="tocFontSize"]');
         this.tocMaxLevelSelect = this.form.querySelector('select[name="tocMaxLevel"]');
         this.tocDefaultExpandedCheckbox = this.form.querySelector('input[name="tocDefaultExpanded"]');
+        this.tocClickToToggleCheckbox = this.form.querySelector('input[name="tocClickToToggle"]');
         this.autoSaveCheckbox = this.form.querySelector('input[name="autoSave"]');
         this.showDotFilesCheckbox = this.form.querySelector('input[name="showDotFiles"]');
         this.showAssetsFolderCheckbox = this.form.querySelector('input[name="showAssetsFolder"]');
@@ -526,6 +531,9 @@ export class SettingsDialog {
         }
         if (this.tocDefaultExpandedCheckbox) {
             this.tocDefaultExpandedCheckbox.checked = editorPrefs.tocDefaultExpanded !== false;
+        }
+        if (this.tocClickToToggleCheckbox) {
+            this.tocClickToToggleCheckbox.checked = editorPrefs.tocClickToToggle !== false;
         }
         if (this.autoSaveCheckbox) {
             this.autoSaveCheckbox.checked = editorPrefs.autoSave !== false;
@@ -745,6 +753,7 @@ export class SettingsDialog {
             tocFontSize: normalizedTocSize,
             tocMaxLevel,
             tocDefaultExpanded: this.tocDefaultExpandedCheckbox ? Boolean(this.tocDefaultExpandedCheckbox.checked) : false,
+            tocClickToToggle: this.tocClickToToggleCheckbox ? Boolean(this.tocClickToToggleCheckbox.checked) : true,
             autoSave,
             showDotFiles,
             showAssetsFolder,

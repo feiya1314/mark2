@@ -128,6 +128,7 @@ export const defaultEditorSettings = {
     tocFontSize: 12,
     tocMaxLevel: 4,
     tocDefaultExpanded: false,
+    tocClickToToggle: true,
     autoSave: true,
     contentMaxWidth: 800,
     colorVariant: 'v1',
@@ -282,6 +283,10 @@ export function normalizeEditorSettings(candidate) {
 
         if (candidate.tocDefaultExpanded !== undefined) {
             prefs.tocDefaultExpanded = candidate.tocDefaultExpanded !== false;
+        }
+
+        if (candidate.tocClickToToggle !== undefined) {
+            prefs.tocClickToToggle = candidate.tocClickToToggle !== false;
         }
 
         if (candidate.autoSave !== undefined) {

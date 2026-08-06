@@ -310,6 +310,7 @@
     "settings.tocFontSize": "大綱字型大小",
     "settings.tocMaxLevel": "最大標題級別",
     "settings.tocDefaultExpanded": "預設全部展開",
+    "settings.tocClickToToggle": "點擊標題切換摺疊",
     "settings.contentMaxWidth": "內容最大寬度(px)",
     "settings.autoSave": "自動儲存",
     "settings.showDotFiles": "顯示隱藏檔案（. 開頭的檔案）",

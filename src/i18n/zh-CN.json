@@ -311,6 +311,7 @@
     "settings.tocFontSize": "大纲字号",
     "settings.tocMaxLevel": "最大标题级别",
     "settings.tocDefaultExpanded": "默认全部展开",
+    "settings.tocClickToToggle": "点击标题切换折叠",
     "settings.contentMaxWidth": "内容最大宽度(px)",
     "settings.autoSave": "自动保存",
     "settings.showDotFiles": "显示隐藏文件（. 开头的文件）",

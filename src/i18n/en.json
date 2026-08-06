@@ -311,6 +311,7 @@
     "settings.tocFontSize": "TOC Font Size",
     "settings.tocMaxLevel": "Max Heading Level",
     "settings.tocDefaultExpanded": "Expand All by Default",
+    "settings.tocClickToToggle": "Click Heading to Toggle Collapse",
     "settings.contentMaxWidth": "Content Max Width (px)",
     "settings.autoSave": "Auto Save",
     "settings.showDotFiles": "Show hidden files (dotfiles)",
